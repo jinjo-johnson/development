@@ -17,6 +17,12 @@ export class ChatResolver {
         return this.ChatService.getChats({id})
     }
 
+    @Query(returns => [ChatType])
+    allChats(){
+        return this.ChatService.getAllchats();
+    }
+
+
     @Mutation( returns => ChatType)
     insertChat(        
         @Args('name') name : string,

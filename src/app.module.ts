@@ -6,6 +6,9 @@ import {GraphQLModule} from '@nestjs/graphql'
 import { ChatModule } from './chat/chat.module';
 import { Chat } from './chat/chat.entity';
 import { AppGateway } from './app.gateway';
+import { customer } from './customer/customer.entity';
+import { AuthModule } from './auth/auth.module';
+import { User } from './auth/user.entity';
 
 @Module({
   imports: [
@@ -15,13 +18,16 @@ import { AppGateway } from './app.gateway';
       synchronize: true,
       useUnifiedTopology: true,
       entities: [
-        Chat
+        Chat,
+        customer,
+        User
       ],
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: true
     }),
-    ChatModule
+    ChatModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService, AppGateway],
