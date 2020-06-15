@@ -6,6 +6,7 @@ import { UserRepository } from './user.repository';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
+import { ChatRepository } from 'src/chat/chat.repository';
 
 @Module({
   imports:[
@@ -16,7 +17,7 @@ import { JwtStrategy } from './jwt.strategy';
         expiresIn: 3600,
       }
     }),
-    TypeOrmModule.forFeature([UserRepository])
+    TypeOrmModule.forFeature([UserRepository, ChatRepository])
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

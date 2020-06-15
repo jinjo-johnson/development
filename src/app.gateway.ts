@@ -22,6 +22,7 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect, OnG
   }
   handleConnection(client: Socket, ...args: any[]) {
     this.logger.log(`Client connected: ${client.id}`);
+    // client.broadcast.emit('connections',Object.keys(io.sockets.connected).length);
   }
   @SubscribeMessage('msgToServer')
   handleMessage(client: Socket, text: any): void {
@@ -33,10 +34,16 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect, OnG
 
   @SubscribeMessage('joined')
   joined(client: Socket, text: any): void {
-    let username = `${text.username}`;
-    let data = { name : username};
-    this.logger.log('chat joined');
+    let data = { name : text};
     client.broadcast.emit('joined', (data));
+  }
+
+  @SubscribeMessage('chat-message')
+  chatMsg(client: Socket, text: any): void {
+    let name = `${text.user}`, message = `${text.message}`;
+    this.ChatResolver.insertChat(name, message);
+    let data = { user : name, message : message};
+    client.broadcast.emit('chat-message', (data));
   }
 
 

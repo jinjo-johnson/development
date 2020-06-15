@@ -27,11 +27,6 @@ export class AppController {
   async getAllchats() {
     return this.chatService.getAllchats();
   }
-
-  // @Get("/saveUsers")
-  // saveUsers(): string {
-  //   return this.chatService.saveUsers();
-  // }
 }
 
 

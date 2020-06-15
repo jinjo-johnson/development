@@ -4,23 +4,25 @@ import { AuthCredentialDto } from './dto/auth-credential.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-    async signup(authCredentialDto: AuthCredentialDto): Promise<void>{
+    signup(authCredentialDto: AuthCredentialDto){
         const { username, password }  = authCredentialDto;
+        let data = {};
 
         const user = new User();
         user.username = username;
         user.password = password;
-        await user.save();
+        user.save();
+        data["username"] = user.username;
+        data["status"] = true ;
+        return data;
     }
 
     async signIn(authCredentialDto: AuthCredentialDto){
         const { username, password }  = authCredentialDto;
-        const user =  await this.findOne({username, password});
-        console.log("user date from user collection");
-        console.log(user);
+        const user = await this.findOne({username, password});
         let data = {};
         if(user){
-            data["username"] = user.username;
+            data["username"] = username;
             data["status"] = true ;
             return data;
         }
